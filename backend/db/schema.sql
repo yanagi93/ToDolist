@@ -1,7 +1,20 @@
-CREATE TABLE todos (
+CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
-    title TEXT NOT NULL,
-    completed BOOLEAN NOT NULL DEFAULT FALSE,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE todos (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    title TEXT NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT todos_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE CASCADE
+); 
